@@ -3,11 +3,10 @@ from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
-from model import user
+from models import user
 
 app = Flask(__name__)
-app.secret_key = "secrete"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:kr34t1v1ty@127.0.0.1/task'
+
 
 db = SQLAlchemy(app)
 
