@@ -1,27 +1,34 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
 from functools import wraps
-import pymysql
+
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+from model import user
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'kr34t1v1ty'
-app.config['MYSQL_DB'] = 'task'
+app = Flask(__name__)
+app.secret_key = "secrete"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:kr34t1v1ty@127.0.0.1/task'
 
 db = SQLAlchemy(app)
 
-# this route will test the database connection and nothing more
+
+
 @app.route('/db-test')
 def testdb():
     try:
-        db.session.query("1").from_statement("SELECT 1").all()
-        return '<h1>It works.</h1>'
+        admin = user.User(username='admin', email='admin@example.com')
+        manager = user.User(username='manager', email='guest@example.com')
+        db.session.add(admin)
+        db.session.add(manager)
+        db.session.commit()
+        return '<h1>User were sucessfully created</h1>'
     except:
-        return '<h1>Something is broken.</h1>'
+        return '<h1>Nothing happend</h1>'
+
 
 # login required decorator
+
+
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
