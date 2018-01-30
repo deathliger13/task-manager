@@ -12,6 +12,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:kr34t1v1ty@127.0.0.1/task'
 db = SQLAlchemy(app)
 
 
+# Test DB
+
 
 @app.route('/db-test')
 def testdb():
