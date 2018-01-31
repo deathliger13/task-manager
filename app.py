@@ -1,13 +1,14 @@
 from functools import wraps
-
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
-
 from models import user
+from flask_bootstrap import Bootstrap
+import config
 
 app = Flask(__name__)
-
-
+Bootstrap(app)
+app.secret_key = config.SECRETE_KEY
+app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 
 
@@ -40,14 +41,17 @@ def login_required(f):
             return redirect(url_for('login'))
     return wrap
 
+
 @app.route("/")
 @login_required
 def home():
     return render_template('index.html')
 
+
 @app.route('/welcome')
 def welcome():
     return render_template('welcome.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -61,6 +65,7 @@ def login():
             return redirect(url_for('home'))
 
     return render_template('login.html', error=error)
+
 
 @app.route('/logout')
 @login_required
