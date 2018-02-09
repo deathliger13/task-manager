@@ -8,5 +8,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 SECRETE_KEY = "_rf!9135)kl=*&3gt5po2c&t8@-%4izu7q+7f1$^85(owav%v%"
-SQLALCHEMY_DATABASE_URI = 'mysql://root:kr34t1v1ty@127.0.0.1/task'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:toor@127.0.0.1/task'
+SQLALCHEMY_TRACK_MODIFICATIONS = True
+SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+
 
