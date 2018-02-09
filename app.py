@@ -5,8 +5,9 @@ from models import user
 from flask_bootstrap import Bootstrap
 import config
 
+
+bootstrap = Bootstrap()
 app = Flask(__name__)
-Bootstrap(app)
 app.secret_key = config.SECRETE_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
@@ -26,8 +27,6 @@ def testdb():
         return '<h1>User were sucessfully created</h1>'
     except:
         return '<h1>Nothing happend</h1>'
-
-
 
 
 # login required decorator
@@ -82,6 +81,9 @@ def logout():
     session.pop('logged_in', None)
     flash('You were just logged out')
     return redirect(url_for('welcome'))
+
+
+bootstrap.init_app(app)
 
 
 # start the server with the 'run()' method
