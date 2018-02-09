@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash,g
 from flask_sqlalchemy import SQLAlchemy
 from models import user
 from flask_bootstrap import Bootstrap
@@ -18,14 +18,16 @@ db = SQLAlchemy(app)
 @app.route('/db-test')
 def testdb():
     try:
-        admin = user.User(username='admin', email='admin@example.com')
-        manager = user.User(username='manager', email='guest@example.com')
+        admin = user.Users(username='admin', email='admin@example.com')
+        manager = user.Users(username='manager', email='guest@example.com')
         db.session.add(admin)
         db.session.add(manager)
         db.session.commit()
         return '<h1>User were sucessfully created</h1>'
     except:
         return '<h1>Nothing happend</h1>'
+
+
 
 
 # login required decorator
@@ -40,6 +42,13 @@ def login_required(f):
             flash('You need to login first.')
             return redirect(url_for('login'))
     return wrap
+
+
+@app.route('/user')
+@login_required
+def users():
+   users = user.Users.query.filter_by(username='admin')
+   return render_template('user.html', users=users)
 
 
 @app.route("/")
