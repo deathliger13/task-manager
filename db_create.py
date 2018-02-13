@@ -2,7 +2,7 @@
 # This file creates a database used for the task manager
 
 from flask_sqlalchemy import SQLAlchemy
-from models import user
+
 
 db = SQLAlchemy()
 
