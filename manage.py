@@ -1,27 +1,83 @@
-import os
-from flask_script import Manager, Server
+#! /home/vadim/pypro/taskman/venv/bin/python
+import unittest
+import coverage
+from flask.cli import FlaskGroup
+from project.server import create_app, db
+from project.server.models import User
 
 
-from app import create_app, db
-
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-
-manager = Manager(app)
+app = create_app()
+cli = FlaskGroup(create_app=create_app)
 
 
-@manager.command
-def hello():
-    print('hello')
+# code coverage
+COV = coverage.coverage(
+    branch=True,
+    include='project/*',
+    omit=[
+        'project/tests/*',
+        'project/server/config.py',
+        'project/server/*/__init__.py'
+    ]
+)
+COV.start()
 
+@app.shell_context_processor
+def make_shell_context():
+    return dict(app=app, db=db)
 
-@manager.command
-def create():
+@cli.command()
+def create_db():
+    db.drop_all()
     db.create_all()
     db.session.commit()
 
 
-# manager.add_command("hello", hello())
-manager.add_command("run", Server(host="127.0.0.1", port=8888))
+@cli.command()
+def drop_db():
+    """Drops the db tables."""
+    db.drop_all()
 
-if __name__ == "__main__":
-    manager.run()
+
+@cli.command()
+def create_admin():
+    """Creates the admin user."""
+    db.session.add(User(email='ad@min.com', password='admin', admin=True))
+    db.session.commit()
+
+
+@cli.command()
+def create_data():
+    """Creates sample data."""
+    pass
+
+
+@cli.command()
+def test():
+    """Runs the unit tests without test coverage."""
+    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        return 0
+    return 1
+
+
+@cli.command()
+def cov():
+    """Runs the unit tests with coverage."""
+    tests = unittest.TestLoader().discover('project/tests')
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        COV.stop()
+        COV.save()
+        print('Coverage Summary:')
+        COV.report()
+        COV.html_report()
+        COV.erase()
+        return 0
+    return 1
+
+
+
+if __name__ == '__main__':
+    cli()
