@@ -1,8 +1,7 @@
 from functools import wraps
-from flask import Flask, render_template, request, redirect, url_for, session, flash,g
-from flask_sqlalchemy import SQLAlchemy
-from models import user
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_bootstrap import Bootstrap
+from db_create import db, create
 import config
 
 
@@ -10,7 +9,7 @@ bootstrap = Bootstrap()
 app = Flask(__name__)
 app.secret_key = config.SECRETE_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
-db = SQLAlchemy(app)
+db.init_app(app)
 
 
 # Test DB
@@ -19,8 +18,9 @@ db = SQLAlchemy(app)
 @app.route('/db-test')
 def testdb():
     try:
-        admin = user.Users(username='admin', email='admin@example.com')
-        manager = user.Users(username='manager', email='guest@example.com')
+        create()
+        admin = user.Users(username='admin', email='admin@example.com', password='123456')
+        manager = user.Users(username='manager', email='guest@example.com', password='123456')
         db.session.add(admin)
         db.session.add(manager)
         db.session.commit()

@@ -1,8 +1,12 @@
 # db_create.py
 # This file creates a database used for the task manager
 
-from app import db
-from models import user
+from flask_sqlalchemy import SQLAlchemy
 
-db.create_all()
-db.session.commit()
+
+db = SQLAlchemy()
+
+
+def create():
+    db.create_all()
+    db.session.commit()
