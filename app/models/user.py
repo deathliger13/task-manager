@@ -1,5 +1,5 @@
 from app import db
-from sqlalchemy_utils import PasswordType, force_auto_coercion
+from sqlalchemy_utils import PasswordType
 
 
 # User table

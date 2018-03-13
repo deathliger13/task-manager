@@ -1,4 +1,4 @@
-from wtforms import Form, BooleanField, StringField, PasswordField, validators, SelectField
+from wtforms import Form, StringField, PasswordField, validators, SelectField
 
 
 class CreateUser(Form):

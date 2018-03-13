@@ -4,3 +4,4 @@ main = Blueprint('main', __name__)
 
 from .views import *
 from .errors import *
+from .forms import *
