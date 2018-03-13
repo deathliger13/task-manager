@@ -3,3 +3,23 @@
 .site-content {
   padding-top: 75px;
 }
+
+.task {
+  margin-top: 25px;
+  font-family: 'Arial', sans-serif;
+  font-size: 18px;
+}
+
+.task h2 {
+  font-size: 24px;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 24px;
+}
+
+.smile {
+  font-size: 35px;
+}
+
+small {
+  font-size: 100%;
+}
