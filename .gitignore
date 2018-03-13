@@ -4,13 +4,24 @@ __pycache__/
 *$py.class
 
 .idea
-venv
+.save
 
 # virtualenv
 .venv
+env
+venv
 venv/
 ENV/
 
 # Flask stuff:
 instance/
-.webassets-cache
+.webassets-cache__pycache__
+
+*.coverage
+*.db
+*.pyc
+
+htmlcov
+migrations
+
+.DS_Store
