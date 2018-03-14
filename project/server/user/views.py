@@ -9,6 +9,9 @@ from project.server import bcrypt, db
 from project.server.models import User
 from project.server.user.forms import LoginForm, RegisterForm
 
+from requests.auth import HTTPBasicAuth
+
+import requests
 
 user_blueprint = Blueprint('user', __name__,)
 
@@ -60,3 +63,10 @@ def logout():
 @login_required
 def members():
     return render_template('user/members.html')
+
+
+@user_blueprint.route('/api')
+def api():
+    r = requests.get('https://api.github.com/user', auth=HTTPBasicAuth('deathliger666', 'oleg13081995'))
+    return r.status_code
+
