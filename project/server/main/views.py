@@ -16,6 +16,7 @@ def home():
 def about():
     return render_template("main/about.html")
 
+
 @main_blueprint.route('/api', methods=['GET'])
 def api():
     r = requests.get('https://api.github.com/user', auth=('deathliger666', 'oleg13081995'))
