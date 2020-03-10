@@ -1,0 +1,32 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<div class="body-content">
+    <div class="row">
+        <h1>About</h1>
+        <p>
+            Attempt to create Task manager for working with projects Teamwork.com
+        </p>
+    </div>
+</div>
+
+<section class="task">
+    <h2>The Task =)</h2>
+    <ol>
+        <li>Sync with Teamwork API by some creds. From teamwork we should recieve task by such filters:
+            <ul>
+                <li>On whom the task is assigned</li>
+                <li>Wich status does it has</li>
+                <li>In wich sprint it is (Sprint duration from monday to monday. Task from one sprint can be reassigned to newer)</li>
+                <li>Recieve new comments from task</li>
+                <li>Task priority</li>
+                <li>Attachments to the task</li>
+            </ul>
+        </li>
+        <li>User roles and permissions admin, dev, manager</li>
+        <li>Alerts on deadline, new comments, new tasks that are assigned on one user. Push notification</li>
+        <li>All projects</li>
+    </ol>
+</section>
+
+{% endblock %}
